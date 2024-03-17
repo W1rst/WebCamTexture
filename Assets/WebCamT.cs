@@ -29,23 +29,15 @@ public class WebCamT : MonoBehaviour
             }
         }
     }
-
     void Update()
     {
-        if (!_camAvailable || !_backCamera.isPlaying)
-            return;
-
         float ratio = (float)_backCamera.width / _backCamera.height;
         _fit.aspectRatio = ratio;
 
-        // Handle screen orientation changes
-        if (Screen.orientation == ScreenOrientation.Portrait || Screen.orientation == ScreenOrientation.PortraitUpsideDown)
-        {
-            _background.rectTransform.localScale = new Vector3(-1f, 1f, 1f);
-        }
-        else
-        {
-            _background.rectTransform.localScale = new Vector3(1f, 1f, 1f);
-        }
+        float scaleY = _backCamera.videoVerticallyMirrored ? -1f : 1f;
+        _background.rectTransform.localScale = new Vector3(1f, scaleY, 1f);
+
+        int orient = -_backCamera.videoRotationAngle;
+        _background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
     }
 }
