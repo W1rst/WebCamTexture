@@ -5,16 +5,13 @@ using UnityEngine.UI;
 
 public class WebCamT : MonoBehaviour
 {
-    private bool _camAvailable = false;
     private WebCamTexture _backCamera;
-    private Texture _defaultBackground;
 
     [SerializeField] private RawImage _background;
     [SerializeField] private AspectRatioFitter _fit;
 
     void Start()
     {
-        _defaultBackground = _background.texture;
         WebCamDevice[] devices = WebCamTexture.devices;
 
         for (int i = 0; i < devices.Length; i++)
@@ -24,7 +21,6 @@ public class WebCamT : MonoBehaviour
                 _backCamera = new WebCamTexture(devices[i].name, Screen.width, Screen.height);
                 _backCamera.Play();
                 _background.texture = _backCamera;
-                _camAvailable = true;
                 break;
             }
         }
